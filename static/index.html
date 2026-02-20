@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Flow Process Analyser</title>
+    <!-- Use Google Fonts to enhance aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main>
+      <h1>Flow Process Analyser</h1>
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;">Analyze flow processes (open systems) commonly found in Rankine Cycles.</p>
+      
+      <form id="calc-form">
+        <div id="form-errors" aria-live="polite" class="form-errors"></div>
+        <div class="row">
+          <label for="process_type">Flow Process</label>
+          <select id="process_type" name="process_type" class="hidden-select"></select>
+          <div id="process-cards" class="cards" aria-label="Process choices"></div>
+        </div>
+        <div class="row">
+          <label for="substance">Working Fluid</label>
+          <select id="substance" name="substance" class="hidden-select"></select>
+          <div id="substance-cards" class="cards" aria-label="Substance choices"></div>
+        </div>
+
+        <fieldset>
+          <legend>Inlet State (State 1)</legend>
+          <div class="row">
+            <label>Pressure $P_1$ (kPa)<input id="P1" name="P1" type="number" step="any" required></label>
+            <label>Volume $V_1$ (m³)<input id="V1" name="V1" type="number" step="any" required></label>
+            <label>Temperature $T_1$ (K)<input id="T1" name="T1" type="number" step="any" required></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Outlet State (State 2 / Optional Constraints)</legend>
+          <div class="row">
+            <label>Volume $V_2$ (m³)<input id="V2" name="V2" type="number" step="any"></label>
+            <label>Temperature $T_2$ (K)<input id="T2" name="T2" type="number" step="any"></label>
+            <label>Polytropic index $n$<input id="n" name="n" type="number" step="any"></label>
+          </div>
+        </fieldset>
+
+        <div class="row" style="max-width: 300px;">
+          <label for="mass">Mass rate (kg/s)</label>
+          <input id="mass" name="mass" type="number" step="any" value="1.0">
+        </div>
+
+        <div class="row" style="margin-top: 1.5rem;">
+          <button type="submit" style="width: 100%;">Calculate Flow Process</button>
+        </div>
+      </form>
+
+      <section id="output">
+        <h2>Process Results</h2>
+        <div id="results-container">
+          <div class="results-grid" id="results-grid">
+            <!-- Results will be inserted here by JavaScript -->
+            <p style="grid-column: 1/-1; color: var(--text-secondary); text-align: center; padding: 2rem;">Submit the form above to view results.</p>
+          </div>
+        </div>
+        <div class="plots">
+          <div class="plot">
+            <h3>P-V Diagram</h3>
+            <div id="pv-plot" class="plotly-plot" aria-label="P-V plot"></div>
+            <a id="pv-download" class="download" href="#" style="display:none;">Download P-V</a>
+          </div>
+          <div class="plot">
+            <h3>T-S Diagram</h3>
+            <div id="ts-plot" class="plotly-plot" aria-label="T-S plot"></div>
+            <a id="ts-download" class="download" href="#" style="display:none;">Download T-S</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Plotly from CDN -->
+    <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
